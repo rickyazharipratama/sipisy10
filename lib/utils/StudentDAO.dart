@@ -42,16 +42,16 @@ class StudentDAO{
     return result;
   }
 
-  Future<int> updateStudent(Student student) async {
+  Future<int> updateStudent(Student? student) async {
     final db = await dbProvider.database;
 
-    var result = await db!.update(studentTable, student.toJson(),
+    var result = await db!.update(studentTable, student!.toJson(),
         where: 'id = ?', whereArgs: [student.id]);
 
     return result;
   }
 
-  Future<int> deleteStudent(int id) async {
+  Future<int> deleteStudent(int? id) async {
     final db = await dbProvider.database;
 
     var result = await db!.delete(studentTable, where: 'id = ?', whereArgs: [id]);

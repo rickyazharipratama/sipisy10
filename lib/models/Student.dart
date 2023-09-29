@@ -1,18 +1,18 @@
 class Student{
-  int id;
-  String name;
-  String date;
-  int age;
-  String gender;
-  String address;
+  int? id;
+  String? name;
+  String? date;
+  int? age;
+  String? gender;
+  String? address;
 
   Student({
-    required this.id ,
-    required this.name ,
-    required this.date,
-    required this.age,
-    required this.gender,
-    required this.address
+     this.id ,
+     this.name ,
+     this.date,
+     this.age,
+     this.gender,
+     this.address
   });
 
   factory Student.fromJson(Map<String,dynamic> json) => Student(

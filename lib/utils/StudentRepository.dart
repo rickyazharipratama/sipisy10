@@ -6,11 +6,11 @@ class StudentRepository{
 
   Future getStudent({String? query}) => stdDao.getStudents(query: query);
 
-  Future getUser(int id) => stdDao.getStudent(id: id);
+  Future getUser(int? id) => stdDao.getStudent(id: id);
 
-  Future createUser(Student std) => stdDao.createStudent(std);
+  Future createUser(Student stud) => stdDao.createStudent(stud);
 
-  Future updateUser(Student std) => stdDao.updateStudent(std);
+  Future updateUser(Student? stud) => stdDao.updateStudent(stud);
 
-  Future deleteUser(int id) => stdDao.deleteStudent(id);
+  Future deleteUser(int? id) => stdDao.deleteStudent(id);
 }
