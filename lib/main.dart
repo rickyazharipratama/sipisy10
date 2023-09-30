@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spisy10/Spisy.dart';
-import 'package:spisy10/bloc/BlocDelegate.dart';
+import 'package:spisy10/bloc/bloc_delegate.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

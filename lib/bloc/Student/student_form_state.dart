@@ -1,5 +1,4 @@
-
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 import 'package:spisy10/models/Student.dart';
 
 @immutable
