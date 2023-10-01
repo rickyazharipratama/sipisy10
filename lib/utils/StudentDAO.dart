@@ -7,7 +7,7 @@ class StudentDAO{
   Future<List<Student>> getStudents({List<String>? columns, String? query}) async {
     final db = await dbProvider.database;
 
-    late List<Map<String, dynamic>> result;
+    List<Map<String, dynamic>>? result;
     if (query != null && query != '') {
       if (query.isNotEmpty) {
         result = await db!.query(studentTable,
@@ -17,7 +17,7 @@ class StudentDAO{
       result = await db!.query(studentTable, columns: columns);
     }
 
-    List<Student> students = result.isNotEmpty
+    List<Student> students = result!.isNotEmpty
         ? result.map((student) => Student.fromJson(student)).toList()
         : [];
     return students;
@@ -42,11 +42,11 @@ class StudentDAO{
     return result;
   }
 
-  Future<int> updateStudent(Student student) async {
+  Future<int> updateStudent(Student student, int id) async {
     final db = await dbProvider.database;
 
     var result = await db!.update(studentTable, student.toJson(),
-        where: 'id = ?', whereArgs: [student.id]);
+        where: 'id = ?', whereArgs: [id]);
 
     return result;
   }
