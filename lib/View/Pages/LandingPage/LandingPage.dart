@@ -1,10 +1,15 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spisy10/View/Fragments/student_list.dart';
 import 'package:spisy10/View/Fragments/student_list_empty.dart';
 import 'package:spisy10/View/Pages/LandingPage/LandingPagePresenter.dart';
 import 'package:spisy10/View/widgets/buttons/appbar_button.dart';
+import 'package:spisy10/bloc/page/page_bloc.dart';
+import 'package:spisy10/bloc/page/page_event.dart';
+import 'package:spisy10/bloc/page/page_state.dart';
+import 'package:spisy10/models/tab_controller_model.dart';
 
 class LandingPage extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -22,9 +27,11 @@ class _LandingPageState extends State<LandingPage>  with TickerProviderStateMixi
   @override
   void initState() {
     super.initState();
-    presenter = LandingPagePresenter(
-      context: context
-    );
+    presenter = LandingPagePresenter();
+    presenter.view
+    ..setCurrentContext(context)
+    ..setPageController(0)
+    ..setTabController(TabControllerModel(ticker: this, length: 2));
   }
 
   @override
@@ -53,19 +60,31 @@ class _LandingPageState extends State<LandingPage>  with TickerProviderStateMixi
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Expanded(
-            child: PageView(
-              controller:presenter.view.pageController,
-              children: [
-                StudentList(),
-                const StudentListEmpty()
-              ],
-            ),
+            child: BlocListener<PageBloc,PageState>(
+              listener: (context, state) {
+                if(state is PageChanged){
+                  presenter.view.pageController.animateToPage(state.activePage,
+                    duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+                }
+              },
+              child: PageView(
+                controller:presenter.view.pageController,
+                allowImplicitScrolling: false,
+                  children: [
+                    StudentList(),
+                    const StudentListEmpty()
+                  ],
+                ),
+              )
           ),
 
           TabBar(
             controller: presenter.view.tabController,
             dividerColor: Colors.black,
             isScrollable: false,
+            onTap: (value) {
+              BlocProvider.of<PageBloc>(context).add(ChangingPage(index: value));
+            },
             tabs: const [
               Icon(
                 Icons.home_filled,

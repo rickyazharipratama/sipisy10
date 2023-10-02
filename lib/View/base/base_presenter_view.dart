@@ -6,7 +6,7 @@ class BasePresenterView{
 
   BuildContext? get currentContext => _currentContext;
 
-  setCurrentContext(BuildContext context){
+  void setCurrentContext(BuildContext context){
     _currentContext = context;
   }
 }

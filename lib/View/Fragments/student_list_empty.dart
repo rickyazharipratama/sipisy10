@@ -13,7 +13,7 @@ class StudentListEmpty extends StatelessWidget {
           vertical: 10
         ),
         child: Text(
-          "Tidak ada data Murid",
+          "Silakan masukan data murid.",
           textAlign: TextAlign.center,
         ),
       ),

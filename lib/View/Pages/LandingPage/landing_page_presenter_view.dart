@@ -10,14 +10,14 @@ class LandingPagePresenterView extends BasePresenterView{
   PageController get pageController => _pageController!;
   TabController get tabController => _tabController!;
 
-  set setPageController(int? initial){
+  void setPageController(int? initial){
     _pageController = PageController(
       initialPage: initial ?? 0,
       keepPage: true
     );
   }
 
-  set setTabController(TabControllerModel tcm){
+  void setTabController(TabControllerModel tcm){
     _tabController = TabController(
       length:tcm.length,
       vsync: tcm.ticker,
