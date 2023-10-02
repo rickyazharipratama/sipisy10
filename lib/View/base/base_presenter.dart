@@ -1,0 +1,4 @@
+class BasePresenter{
+
+  void initiateData(){}
+}

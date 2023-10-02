@@ -1,5 +1,5 @@
-import 'package:spisy10/models/Student.dart';
-import 'package:spisy10/utils/DatabaseProvider.dart';
+import 'package:spisy10/models/student.dart';
+import 'package:spisy10/utils/database_provider.dart';
 
 class StudentDAO{
   final dbProvider = DatabaseProvider.db;

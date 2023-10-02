@@ -1,4 +1,4 @@
-import 'package:spisy10/models/Student.dart';
+import 'package:spisy10/models/student.dart';
 
 abstract class StudentsState{
 

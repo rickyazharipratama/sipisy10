@@ -19,10 +19,10 @@ class BlocDelegate extends BlocObserver{
   }
 
   @override
-  void onError(BlocBase bloc, Object error, StackTrace stacktrace) {
-    super.onError(bloc, error, stacktrace);
+  void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
+    super.onError(bloc, error, stackTrace);
     if(kDebugMode){
-      print('$error $stacktrace');
+      print('$error $stackTrace');
     }
   }
 }

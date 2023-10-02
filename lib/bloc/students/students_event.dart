@@ -1,6 +1,6 @@
 
 import 'package:flutter/widgets.dart';
-import 'package:spisy10/models/Student.dart';
+import 'package:spisy10/models/student.dart';
 
 @immutable
 abstract class StudentsEvent{}
