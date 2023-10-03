@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spisy10/View/Pages/LandingPage/LandingPage.dart';
 import 'package:spisy10/bloc/authentication/authentication_bloc.dart';
 import 'package:spisy10/bloc/page/page_bloc.dart';
+import 'package:spisy10/bloc/page/page_state.dart';
 import 'package:spisy10/bloc/students/students_bloc.dart';
 import 'package:spisy10/bloc/students/students_event.dart';
 
@@ -18,7 +19,7 @@ class SpisyApp extends StatelessWidget {
       home: MultiBlocProvider(
         providers: [
           BlocProvider<PageBloc>(
-            create: (context)=> PageBloc()..close()
+            create: (context)=> PageBloc()
           ),
           BlocProvider<StudentsBloc>(
             create: (context) => StudentsBloc()..add(GetStudents()),

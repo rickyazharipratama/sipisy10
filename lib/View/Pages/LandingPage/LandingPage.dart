@@ -27,79 +27,84 @@ class _LandingPageState extends State<LandingPage>  with TickerProviderStateMixi
   @override
   void initState() {
     super.initState();
-    presenter = LandingPagePresenter();
-    presenter.view
-    ..setCurrentContext(context)
-    ..setPageController(0)
-    ..setTabController(TabControllerModel(ticker: this, length: 2));
+    presenter = LandingPagePresenter(context,this);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        key: widget.scaffoldKey,
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
-        title: Image.asset(
-          "assets/images/spisyLogo.png",
-          width: (30 * 16) / 9,
-          alignment: Alignment.topCenter,
-          height: 30,
-          fit: BoxFit.contain,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<PageBloc>(
+          create: presenter.pageProvider,
         ),
-        actions: const [
-          AppBarButton()
-        ],
-      ),
-      backgroundColor: Colors.white,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Expanded(
-            child: BlocListener<PageBloc,PageState>(
-              listener: (context, state) {
-                if(state is PageChanged){
-                  presenter.view.pageController.animateToPage(state.activePage,
-                    duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
-                }
-              },
-              child: PageView(
-                controller:presenter.view.pageController,
-                allowImplicitScrolling: false,
-                  children: [
-                    StudentList(),
-                    const StudentListEmpty()
-                  ],
-                ),
-              )
+        BlocProvider(create: presenter.studentPRovider)
+      ], 
+      child: Scaffold(
+        appBar: AppBar(
+          key: widget.scaffoldKey,
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          centerTitle: true,
+          title: Image.asset(
+            "assets/images/spisyLogo.png",
+            width: (30 * 16) / 9,
+            alignment: Alignment.topCenter,
+            height: 30,
+            fit: BoxFit.contain,
           ),
+          actions: const [
+            AppBarButton()
+          ],
+        ),
+        backgroundColor: Colors.white,
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Expanded(
+              child: BlocListener<PageBloc,PageState>(
+                listener: presenter.pageViewBlocListener,
+                child: PageView(
+                  controller:presenter.view.pageController,
+                  allowImplicitScrolling: false,
+                  physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      StudentList(),
+                      const StudentListEmpty()
+                    ],
+                  ),
+                )
+            ),
 
-          TabBar(
-            controller: presenter.view.tabController,
-            dividerColor: Colors.black,
-            isScrollable: false,
-            onTap: (value) {
-              BlocProvider.of<PageBloc>(context).add(ChangingPage(index: value));
-            },
-            tabs: const [
-              Icon(
-                Icons.home_filled,
-                size: 30,
-                color: Colors.white54,
-                ),
-              Icon(
-                Icons.logout_rounded,
-                size: 30,
-                color: Colors.white54,
-              )
-            ],
-          )
-        ],
+            TabBar(
+              controller: presenter.view.tabController,
+              dividerColor: Colors.black,
+              isScrollable: false,
+              onTap: presenter.tabBarIsTapped,
+              tabs: const [
+                Icon(
+                  Icons.home_filled,
+                  size: 30,
+                  color: Colors.white54,
+                  ),
+                Icon(
+                  Icons.logout_rounded,
+                  size: 30,
+                  color: Colors.white54,
+                )
+              ],
+            )
+          ],
+        )
       )
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    presenter.dispose();
+    super.dispose();
   }
 }
