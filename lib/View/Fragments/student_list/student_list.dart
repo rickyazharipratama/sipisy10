@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spisy10/View/Fragments/student_list/student_list_view.dart';
 import 'package:spisy10/View/Fragments/student_list_empty.dart';
-import 'package:spisy10/View/widgets/components/student_item_list.dart';
 import 'package:spisy10/bloc/students/students_bloc.dart';
 import 'package:spisy10/bloc/students/students_state.dart';
+import 'package:spisy10/View/Fragments/student_list/student_list_presenter.dart';
 
 class StudentList extends StatelessWidget {
   final GlobalKey<RefreshIndicatorState> refreshKey = GlobalKey<RefreshIndicatorState>();
@@ -12,21 +13,9 @@ class StudentList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final StudentListPresenter presenter = StudentListPresenter(view: StudentListView(context));
     return BlocBuilder<StudentsBloc,StudentsState>(
-      builder: (context, state){
-        if(state  is StudentUpdated && state.students!.isNotEmpty){
-          return ListView.builder(
-            itemCount: state.students!.length,
-            itemBuilder: (context,i){
-              return StudentItemList(
-                student: state.students![i],
-              );
-            }
-          );
-        }else{
-          return const StudentListEmpty();
-        }
-      }
+      builder: presenter.view.studentListBlocBuilder
     );
   }
 }

@@ -2,14 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:spisy10/View/Fragments/student_list.dart';
+import 'package:spisy10/View/Fragments/student_list/student_list.dart';
 import 'package:spisy10/View/Fragments/student_list_empty.dart';
 import 'package:spisy10/View/Pages/LandingPage/LandingPagePresenter.dart';
+import 'package:spisy10/View/Pages/LandingPage/landing_page_presenter_view.dart';
 import 'package:spisy10/View/widgets/buttons/appbar_button.dart';
 import 'package:spisy10/bloc/page/page_bloc.dart';
-import 'package:spisy10/bloc/page/page_event.dart';
 import 'package:spisy10/bloc/page/page_state.dart';
-import 'package:spisy10/models/tab_controller_model.dart';
 
 class LandingPage extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -27,7 +26,12 @@ class _LandingPageState extends State<LandingPage>  with TickerProviderStateMixi
   @override
   void initState() {
     super.initState();
-    presenter = LandingPagePresenter(context,this);
+    presenter = LandingPagePresenter(
+      view : LandingPagePresenterView(
+        context: context,
+        ticker: this
+      ),
+    );
   }
 
   @override
@@ -103,7 +107,6 @@ class _LandingPageState extends State<LandingPage>  with TickerProviderStateMixi
 
   @override
   void dispose() {
-    // TODO: implement dispose
     presenter.dispose();
     super.dispose();
   }

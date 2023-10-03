@@ -6,31 +6,21 @@ import 'package:spisy10/bloc/page/page_bloc.dart';
 import 'package:spisy10/bloc/page/page_event.dart';
 import 'package:spisy10/bloc/page/page_state.dart';
 import 'package:spisy10/bloc/students/students_bloc.dart';
-import 'package:spisy10/bloc/students/students_event.dart';
 import 'package:spisy10/models/tab_controller_model.dart';
-import 'package:spisy10/utils/database_provider.dart';
 
 class LandingPagePresenter extends BasePresenter{
 
-  late LandingPagePresenterView _view;
+  final LandingPagePresenterView view;
   late PageBloc pageBloc;
   late StudentsBloc studentBLoc;
   
   
 
-  LandingPagePresenter(BuildContext context, TickerProvider ticker){
-    _view = LandingPagePresenterView()
-    ..setCurrentContext(context)
-    ..setPageController(0)
-    ..setTabController(
-      TabControllerModel(
-        ticker: ticker, length: 2)
-    );
+  LandingPagePresenter({required this.view}){
     pageBloc =PageBloc();
     studentBLoc = StudentsBloc();
   }
 
-  LandingPagePresenterView get view => _view;
 
   pageViewBlocListener(BuildContext context, PageState state){
     if(state is PageChanged){
@@ -52,10 +42,8 @@ class LandingPagePresenter extends BasePresenter{
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     pageBloc.close();
     studentBLoc.close();
   }
-
 }

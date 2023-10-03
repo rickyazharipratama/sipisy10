@@ -10,6 +10,12 @@ class LandingPagePresenterView extends BasePresenterView{
   PageController get pageController => _pageController!;
   TabController get tabController => _tabController!;
 
+  LandingPagePresenterView({required BuildContext context, required TickerProvider ticker}){
+    setCurrentContext(context);
+    setPageController(0);
+    setTabController(TabControllerModel(ticker: ticker, length: 2));
+  }
+
   void setPageController(int? initial){
     _pageController = PageController(
       initialPage: initial ?? 0,
