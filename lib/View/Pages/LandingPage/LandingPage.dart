@@ -6,7 +6,7 @@ import 'package:spisy10/View/Fragments/student_list/student_list.dart';
 import 'package:spisy10/View/Fragments/student_list_empty.dart';
 import 'package:spisy10/View/Pages/LandingPage/LandingPagePresenter.dart';
 import 'package:spisy10/View/Pages/LandingPage/landing_page_presenter_view.dart';
-import 'package:spisy10/View/widgets/buttons/appbar_button.dart';
+import 'package:spisy10/View/widgets/buttons/appbar_button/appbar_button.dart';
 import 'package:spisy10/bloc/page/page_bloc.dart';
 import 'package:spisy10/bloc/page/page_state.dart';
 

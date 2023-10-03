@@ -10,7 +10,6 @@ class StudentList extends StatelessWidget {
   final GlobalKey<RefreshIndicatorState> refreshKey = GlobalKey<RefreshIndicatorState>();
   StudentList({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     final StudentListPresenter presenter = StudentListPresenter(view: StudentListView(context));
