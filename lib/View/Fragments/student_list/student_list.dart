@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spisy10/View/Fragments/student_list/student_list_view.dart';
-import 'package:spisy10/View/Fragments/student_list_empty.dart';
 import 'package:spisy10/bloc/students/students_bloc.dart';
 import 'package:spisy10/bloc/students/students_state.dart';
 import 'package:spisy10/View/Fragments/student_list/student_list_presenter.dart';

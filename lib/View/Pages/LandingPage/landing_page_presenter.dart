@@ -4,9 +4,8 @@ import 'package:spisy10/View/Pages/LandingPage/landing_page_presenter_view.dart'
 import 'package:spisy10/View/base/base_presenter.dart';
 import 'package:spisy10/bloc/page/page_bloc.dart';
 import 'package:spisy10/bloc/page/page_event.dart';
-import 'package:spisy10/bloc/page/page_state.dart';
 import 'package:spisy10/bloc/students/students_bloc.dart';
-import 'package:spisy10/models/tab_controller_model.dart';
+import 'package:spisy10/utils/log.dart';
 
 class LandingPagePresenter extends BasePresenter{
 
@@ -22,10 +21,8 @@ class LandingPagePresenter extends BasePresenter{
   }
 
 
-  pageViewBlocListener(BuildContext context, PageState state){
-    if(state is PageChanged){
-      view.pageController.animateToPage(state.activePage, duration: const Duration(milliseconds: 300), curve: Curves.ease);
-    }
+  pageViewBlocListener(int nextPage){
+    view.pageController.animateToPage(nextPage, duration: const Duration(milliseconds: 300), curve: Curves.ease);
   }
 
   PageBloc pageProvider(BuildContext context){
@@ -36,8 +33,10 @@ class LandingPagePresenter extends BasePresenter{
     return studentBLoc;
   }
 
-  tabBarIsTapped(int value){
-    BlocProvider.of<PageBloc>(view.currentContext!).add(ChangingPage(index: value));
+  navigationBarOnTapped(int index){
+    pageViewBlocListener(index);
+    Log("tapped : $index");
+    BlocProvider.of<PageBloc>(view.currentContext!).add(ChangingPage(index: index));
   }
 
   @override

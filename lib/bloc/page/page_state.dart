@@ -1,7 +1,7 @@
 abstract class PageState{
 
-  int activePage = 0;
-  PageState({required this.activePage});
+  int? activePage = 0;
+  PageState({this.activePage});
 }
 
 class InitializingPage extends PageState{
@@ -9,6 +9,9 @@ class InitializingPage extends PageState{
 }
 
 class PageChanged extends PageState{
-   PageChanged({required int active}) : super(activePage : active);
+
+   PageChanged({required int active}){
+    super.activePage = active;
+   }
 }
 

@@ -11,9 +11,7 @@ class PageBloc extends Bloc<PageEvent,PageState>{
   }
 
 
-  FutureOr<void> _changingPage(ChangingPage event, Emitter<PageState> emit) {
-    emit(PageChanged(
-      active: event.index
-    ));
+  FutureOr<void> _changingPage(ChangingPage event, Emitter<PageState> emit) async{
+    emit(PageChanged(active: event.index));
   }
 }

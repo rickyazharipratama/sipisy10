@@ -10,7 +10,6 @@ class AppbarButtonView extends BasePresenterView{
 
 
   Widget appBarBlocBuilder({required BuildContext context, required PageState state,void Function()? onTap}){
-    
     if(state.activePage == 0){
       return  InkWell(
         onTap: onTap??(){},
