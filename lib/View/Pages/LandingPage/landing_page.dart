@@ -7,6 +7,7 @@ import 'package:spisy10/View/Pages/LandingPage/landing_page_presenter.dart';
 import 'package:spisy10/View/Pages/LandingPage/landing_page_presenter_view.dart';
 import 'package:spisy10/View/widgets/buttons/appbar_button/appbar_button.dart';
 import 'package:spisy10/bloc/page/page_bloc.dart';
+import 'package:spisy10/bloc/students/students_bloc.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});
@@ -24,29 +25,29 @@ class LandingPage extends StatelessWidget {
         BlocProvider<PageBloc>(
           create: presenter.pageProvider,
         ),
-        BlocProvider(create: presenter.studentPRovider)
+        BlocProvider<StudentsBloc>(create: presenter.studentPRovider)
       ],
       child: Builder(
         builder: (context) {
           presenter.view.setCurrentContext(context);
           return Scaffold(
             appBar: AppBar(
-            key: key,
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          centerTitle: true,
-          title: Image.asset(
-            "assets/images/spisyLogo.png",
-            width: (30 * 16) / 9,
-            alignment: Alignment.topCenter,
-            height: 30,
-            fit: BoxFit.contain,
+              key: key,
+              automaticallyImplyLeading: false,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              centerTitle: true,
+              title: Image.asset(
+                "assets/images/spisyLogo.png",
+                width: (30 * 16) / 9,
+                alignment: Alignment.topCenter,
+                height: 30,
+                fit: BoxFit.contain,
+              ),
+            actions: const [
+              AppBarButton()
+            ],
           ),
-          actions: const [
-            AppBarButton()
-          ],
-        ),
         backgroundColor: Colors.white,
         body: PageView(
           controller:presenter.view.pageController,
@@ -58,6 +59,9 @@ class LandingPage extends StatelessWidget {
             ],
           ),
         bottomNavigationBar: BottomNavigationBar(
+          backgroundColor:const Color.fromARGB(255, 204, 110, 200),
+          selectedItemColor: Colors.white,
+          unselectedItemColor: const Color.fromARGB(255, 131, 50, 127),
           items: const [
             BottomNavigationBarItem(
               icon: Icon(

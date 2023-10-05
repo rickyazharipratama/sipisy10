@@ -38,6 +38,11 @@ dependencies:
   sqflite: ^2.3.0
   path_provider: ^2.1.1
   flutter_bloc: ^8.1.3
+  flutter_holo_date_picker: ^1.1.2+1
+  navigatorium: 
+    path: "/Users/lumos/personal/project/flutter-plugin/navigatorium/"
+  pratama_form_field_factory:
+    path: "/Users/lumos/personal/project/flutter-plugin/pratama_form_field_factory/"
 dev_dependencies:
   flutter_test:
     sdk: flutter

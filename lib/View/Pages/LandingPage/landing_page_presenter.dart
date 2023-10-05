@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spisy10/View/Pages/LandingPage/landing_page_presenter_view.dart';
 import 'package:spisy10/View/base/base_presenter.dart';
 import 'package:spisy10/bloc/page/page_bloc.dart';
@@ -36,7 +35,7 @@ class LandingPagePresenter extends BasePresenter{
   navigationBarOnTapped(int index){
     pageViewBlocListener(index);
     Log("tapped : $index");
-    BlocProvider.of<PageBloc>(view.currentContext!).add(ChangingPage(index: index));
+    pageBloc.add(ChangingPage(index: index));
   }
 
   @override

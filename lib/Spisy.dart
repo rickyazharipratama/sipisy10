@@ -14,20 +14,8 @@ class SpisyApp extends StatelessWidget {
     return MaterialApp(
       title: "Spisy10",
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(brightness: Brightness.dark),
-      home: MultiBlocProvider(
-        providers: [
-          BlocProvider<PageBloc>(
-            create: (context)=> PageBloc()
-          ),
-          BlocProvider<StudentsBloc>(
-            create: (context) => StudentsBloc()..add(GetStudents()),
-          ),
-          BlocProvider<AuthenticationBloc>(
-            create: (context) => AuthenticationBloc())
-        ],
-        child: const LandingPage(),
-      ),
+      theme: ThemeData(brightness: Brightness.light),
+      home: const LandingPage()
     );
   }
 }
