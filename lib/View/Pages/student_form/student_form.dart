@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
-import 'package:flutter_holo_date_picker/widget/date_picker_widget.dart';
 import 'package:pratama_form_field_factory/pratama_form_field_factory.dart';
 import 'package:spisy10/View/Pages/student_form/student_presenter.dart';
 import 'package:spisy10/View/Pages/student_form/student_view.dart';
 import 'package:spisy10/View/widgets/buttons/pratama_icon_button.dart';
+import 'package:spisy10/bloc/date_form/date_form_bloc.dart';
+import 'package:spisy10/bloc/date_form/date_form_state.dart';
 import 'package:spisy10/bloc/students/students_bloc.dart';
 import 'package:spisy10/bloc/students/students_event.dart';
 import 'package:spisy10/bloc/students/students_state.dart';
@@ -25,11 +25,18 @@ class StudentForm extends StatelessWidget {
     final StudentPresenter presenter = StudentPresenter(view: StudentView(context: context), existingStudent: existingStudent);
     return WillPopScope(
       onWillPop: () async{
-        Navigator.of(context).pop();
+       presenter.dispose();
         return false;
       },
-      child: BlocProvider(
-        create: (context) => studentBloc,
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<StudentsBloc>(
+            create: (context) => studentBloc
+          ),
+          BlocProvider<DateFormBloc>(
+            create: (context) => presenter.dateFormBloc
+          )
+        ],
         child: Builder(
           builder: (context) => Scaffold(
             key: scaffoldKey,
@@ -40,7 +47,7 @@ class StudentForm extends StatelessWidget {
               actions: [
                 PratamaIconButton(
                   icon: Icons.close,
-                  onTap: presenter.onCLoseTapped,
+                  onTap: presenter.dispose,
                   color: Colors.white,
                 )
               ],
@@ -50,13 +57,14 @@ class StudentForm extends StatelessWidget {
             ),
             backgroundColor: const Color.fromARGB(255, 255, 255, 255),
             body: Form(
-              key: formKey, 
+              key: formKey,
               child: BlocListener<StudentsBloc,StudentsState>(
                 listenWhen: (prevState, state){
                   return state is StudentUpdated;
                 },
                 listener: (context,state){
-                  BlocProvider.of<StudentsBloc>(context).add(GetStudents());
+                  studentBloc.add(GetStudents());
+                  presenter.dispose();
                   Navigator.of(context).pop();
                 },
                 child: SingleChildScrollView(
@@ -71,6 +79,7 @@ class StudentForm extends StatelessWidget {
                       children: [
                         TextFormField(
                           keyboardType: TextInputType.name,
+                        
                           decoration: const InputDecoration(
                             labelText: "Nama" 
                           ),
@@ -78,20 +87,30 @@ class StudentForm extends StatelessWidget {
                           onChanged: presenter.onTextNameChanged,
                           validator: presenter.onTextNameValidation,
                         ),
-                        
+                      
                         PratamaDateTimePicker(
                           label: "Tanggal Lahir", 
                           presenter: presenter.dateTimePresenter,
                         ),
 
-                        TextFormField(
-                          keyboardType: TextInputType.name,
-                          decoration: const InputDecoration(
-                            labelText: "Umur" 
+                        BlocListener<DateFormBloc,DateFormState>(
+                          listenWhen:(prev,current){
+                          return current is SuccessCounted;
+                          },
+                          listener: (context, state){
+                              presenter.umurController.value = TextEditingValue(
+                                text: presenter.formattedUmur
+                              );
+                          },
+                          child: TextFormField(
+                            keyboardType: TextInputType.name,
+                            decoration: const InputDecoration(
+                              labelText: "Umur" 
+                            ),
+                            controller: presenter.umurController,
+                            onChanged: presenter.onTextNameChanged,
+                            validator: presenter.onTextNameValidation,
                           ),
-                          initialValue: presenter.existingStudent!.name??"",
-                          onChanged: presenter.onTextNameChanged,
-                          validator: presenter.onTextNameValidation,
                         ),
                       ],
                     ),

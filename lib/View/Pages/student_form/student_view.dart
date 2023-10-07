@@ -7,4 +7,8 @@ class StudentView extends BasePresenterView{
   StudentView({required BuildContext context}){
     setCurrentContext(context);
   }
+
+  close(){
+    Navigator.of(currentContext!).pop();
+  }
 }
