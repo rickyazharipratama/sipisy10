@@ -77,15 +77,8 @@ class StudentForm extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextFormField(
-                          keyboardType: TextInputType.name,
-                        
-                          decoration: const InputDecoration(
-                            labelText: "Nama" 
-                          ),
-                          initialValue: presenter.existingStudent!.name??"",
-                          onChanged: presenter.onTextNameChanged,
-                          validator: presenter.onTextNameValidation,
+                        PratamaTextField(
+                          presenter: presenter.nameTextPresenter
                         ),
                       
                         PratamaDateTimePicker(
@@ -98,20 +91,24 @@ class StudentForm extends StatelessWidget {
                           return current is SuccessCounted;
                           },
                           listener: (context, state){
-                              presenter.umurController.value = TextEditingValue(
-                                text: presenter.formattedUmur
-                              );
+                            presenter.umurTextPresenter.textController.value  = TextEditingValue(
+                              text: presenter.formattedUmur!
+                            );
                           },
-                          child: TextFormField(
-                            keyboardType: TextInputType.name,
-                            decoration: const InputDecoration(
-                              labelText: "Umur" 
-                            ),
-                            controller: presenter.umurController,
-                            onChanged: presenter.onTextNameChanged,
-                            validator: presenter.onTextNameValidation,
+                          child: PratamaTextField(
+                            presenter: presenter.umurTextPresenter,
                           ),
                         ),
+
+                        PratamaRadioListTile(
+                          label: "Jenis Kelamin",
+                          presenter: presenter.radioListTilePresenter,
+                          activeColor: const Color.fromARGB(255, 204, 110, 200),
+                        ),
+
+                        PratamaTextField(
+                          presenter: presenter.alamatTextPresenter
+                        )
                       ],
                     ),
                   ),

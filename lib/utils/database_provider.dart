@@ -44,7 +44,7 @@ class DatabaseProvider{
       "name TEXT, "
       "date TEXT, "
       "age int, "
-      "gender TEXT,"
+      "gender int,"
       "address TEXT"
       ")"
     );

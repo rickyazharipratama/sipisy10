@@ -5,7 +5,7 @@ class Student{
   String? name;
   String? date;
   int? age;
-  String? gender;
+  bool? gender;
   String? address;
 
   Student({
@@ -22,7 +22,7 @@ class Student{
       name: json['name']??"-",
       date: json['date']??"10100101",
       age: json['age']??-1,
-      gender: json['gender']??"-",
+      gender: json['gender'] != null ? json['gender'] == 1 ? true : json['gender'] == 0 ? false : null : null,
       address: json['address']??"-"
   );
 
@@ -32,7 +32,7 @@ class Student{
       "name":name,
       "date": date,
       "age":age,
-      "gender":gender,
+      "gender": gender != null ?  gender! ? 1 : 0: -1,
       "address":address
     };
     return map;
