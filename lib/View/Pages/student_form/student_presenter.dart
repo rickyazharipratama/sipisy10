@@ -35,7 +35,7 @@ class StudentPresenter extends BasePresenter{
       initialDate: existingStudent!.date != null ? DateTime.fromMillisecondsSinceEpoch(int.tryParse(existingStudent!.date!)!):null,
       locale: DateTimePickerLocale.id,
       maxDateTime: DateTime.now(),
-      validator: onTextNameValidation,
+      validator: onTglLahirValidation,
       onSelectedDate: onDateSelected
     );
     umurTextPresenter = PratamaTextFieldPresenter(
@@ -48,13 +48,15 @@ class StudentPresenter extends BasePresenter{
         PratamaRadioModel(value: true, title: "Pria"),
         PratamaRadioModel(value: false, title: "Wanita")
       ],
-      selectedValue: existingStudent != null ?  existingStudent!.gender : null
+      validator:onGenderValidation,
+      selectedValue: existingStudent != null ?  existingStudent!.gender : null,
     );
     alamatTextPresenter = PratamaTextFieldPresenter(
       label: "Alamat",
       keyboardType: TextInputType.streetAddress,
       maxLine: 3,
-      val: existingStudent?.address
+      val: existingStudent?.address,
+      validator: onAlamatValidation
     );
   }
 
@@ -71,7 +73,8 @@ class StudentPresenter extends BasePresenter{
 
   String? get formattedUmur{
     if(umurTextPresenter.val != null){
-        return "$umurTextPresenter.val Tahun";
+      String umr =  umurTextPresenter.val!;
+        return "$umr Tahun";
     }
     return null;
   }
@@ -85,7 +88,32 @@ class StudentPresenter extends BasePresenter{
   String? onTextNameValidation(String? val){
     if(val != null){
       if(val.isEmpty){
-        return "silakan masukkan nama murid";
+        return "Silakan masukkan nama murid.";
+      }
+    }
+    return null;
+  }
+
+  String? onTglLahirValidation(String? val){
+    if(val != null){
+      if(val.isEmpty){
+        return "Silakan pilih tanggal lahir murid.";
+      }
+    }
+    return null;
+  }
+
+  String? onGenderValidation(dynamic val){
+    if(val == null){
+      return "silakan pilih jenis kelamin murid";
+    }
+    return null;
+  }
+
+  String? onAlamatValidation(String? val){
+    if(val != null){
+      if(val.isEmpty){
+        return "Silakan masukkan alamat murid.";
       }
     }
     return null;

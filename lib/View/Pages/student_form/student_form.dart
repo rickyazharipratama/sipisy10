@@ -108,6 +108,37 @@ class StudentForm extends StatelessWidget {
 
                         PratamaTextField(
                           presenter: presenter.alamatTextPresenter
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(10,30.0,10,10),
+                          child: InkWell(
+                            onTap: (){
+                              bool radioValidate = presenter.radioListTilePresenter.validate();
+                              if(formKey.currentState!.validate()&& radioValidate){
+                                print("valid");
+                              }
+                            },
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(5)),
+                                color:  Color.fromARGB(255, 204, 110, 200),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 15
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  "Simpan",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                         )
                       ],
                     ),
