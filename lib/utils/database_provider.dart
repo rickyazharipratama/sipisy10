@@ -39,7 +39,7 @@ class DatabaseProvider{
 
   void initDB(Database database, int version) async {
     await database.execute(
-      "CREATE TABLE IF NOT EXIST $studentTable ("
+      "CREATE TABLE $studentTable ("
       "id INTEGER PRIMARY KEY, "
       "name TEXT, "
       "date TEXT, "

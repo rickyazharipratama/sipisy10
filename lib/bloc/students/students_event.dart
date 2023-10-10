@@ -31,3 +31,7 @@ class GetDetailStudent extends StudentsEvent{
   final int id;
   GetDetailStudent({required this.id});
 }
+
+class InitializeStudent extends StudentsEvent{
+  InitializeStudent();
+}

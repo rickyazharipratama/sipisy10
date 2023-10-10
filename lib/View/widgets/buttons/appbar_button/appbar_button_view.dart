@@ -22,12 +22,10 @@ class AppbarButtonView extends BasePresenterView{
     return Container();
   }
 
-  onTappedButton(StudentsBloc studentBloc){
-    Navigator.of(currentContext!).push(
+  onTappedButton(StudentsBloc studentBloc,{VoidCallback? onRefresh}) async{
+   int? flag = await Navigator.of(currentContext!).push(
       PageRouteBuilder(
-        pageBuilder: (context,_,__) => StudentForm(
-          studentBloc: studentBloc,
-        ),
+        pageBuilder: (context,_,__) => StudentForm(),
         transitionDuration: const Duration(milliseconds: 500),
         transitionsBuilder: (context,anim,_,child){
           return FadeTransition(
@@ -52,5 +50,12 @@ class AppbarButtonView extends BasePresenterView{
         }
       )
     );
+    if(flag != null){
+      if(flag == 1){
+        if(onRefresh != null){
+          onRefresh.call();
+        }
+      }
+    }
   }
 }

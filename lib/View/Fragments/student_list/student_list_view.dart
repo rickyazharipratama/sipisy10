@@ -11,7 +11,7 @@ class StudentListView extends BasePresenterView{
   }
 
   Widget studentListBlocBuilder(BuildContext context, StudentsState state){
-    if(state  is StudentUpdated && state.students!.isNotEmpty){
+    if((state  is StudentLoaded || state is StudentDeleted) && state.students!.isNotEmpty){
       return ListView.builder(
         itemCount: state.students!.length,
         itemBuilder: (context,i){
@@ -21,7 +21,11 @@ class StudentListView extends BasePresenterView{
         }
       );
     }else{
-      return const StudentListEmpty();
+      if(state is StudentIntializing ){
+        return Container();
+      }else{
+        return const StudentListEmpty();
+      }
     }
   }
 }

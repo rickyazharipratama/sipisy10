@@ -1,9 +1,10 @@
 
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spisy10/bloc/students/students_event.dart';
 import 'package:spisy10/bloc/students/students_state.dart';
-import 'package:spisy10/models/student.dart';
 import 'package:spisy10/utils/student_repository.dart';
 
 class StudentsBloc extends Bloc<StudentsEvent,StudentsState>{
@@ -17,7 +18,10 @@ class StudentsBloc extends Bloc<StudentsEvent,StudentsState>{
       on<DeleteStudent>(_deleteStudent);
       on<GetStudents>(_getStudent);
       on<GetDetailStudent>(_getDetailStudent);
+      on<InitializeStudent> (_initializeStudent);
     }
+
+
 
 
   void _addStudent(AddStudent event, Emitter<StudentsState> emit) async{
@@ -32,10 +36,12 @@ class StudentsBloc extends Bloc<StudentsEvent,StudentsState>{
 
   void _updateStudent(UpdateStudent event, Emitter<StudentsState> emit) async{
     try{
-      final int oldIndex = state.students!.indexWhere((element) => element.id == event.id);
-      Student oldStudent = state.students![oldIndex];
-      state.students![oldIndex] = event.updatedStudent;
-      await repository.updateStudent(event.updatedStudent, oldStudent.id!);
+      // because we choose to make new students Bloc provider in form so no need to find in list state
+
+      //final int oldIndex = state.students!.indexWhere((element) => element.id == event.id);
+      //Student oldStudent = state.students!.where((element) => element.id == event.id).first;
+      //state.students![oldIndex] = event.updatedStudent;
+      await repository.updateStudent(event.updatedStudent, event.id!);
       emit(StudentUpdated(students: state.students!));
     }catch(e){
       if(kDebugMode){
@@ -49,7 +55,7 @@ class StudentsBloc extends Bloc<StudentsEvent,StudentsState>{
     try{
       state.students!.removeWhere((element) => element.id == event.id);
       await repository.deleteStudent(event.id);
-      emit(StudentUpdated(students: state.students!));
+      emit(StudentDeleted(students: state.students!));
     }catch(e){
       if (kDebugMode) {
         print(e.toString());
@@ -61,11 +67,17 @@ class StudentsBloc extends Bloc<StudentsEvent,StudentsState>{
 
   void _getStudent(GetStudents event, Emitter<StudentsState> emit)  async{
     state.students = await repository.getStudents();
-    emit(StudentUpdated(students: state.students!));
+    emit(StudentLoaded(students: state.students!));
   }
 
   void _getDetailStudent(GetDetailStudent event, Emitter<StudentsState> emit) {
      state.selectedStudent = state.students!.singleWhere((element) => element.id == event.id);
      //emit(SelectedStudentUpdated(student: state.selectedStudent!));
+  }
+
+  FutureOr<void> _initializeStudent(InitializeStudent event, Emitter<StudentsState> emit) {
+    emit(StudentIntializing(
+      students: []
+    ));
   }
 }
