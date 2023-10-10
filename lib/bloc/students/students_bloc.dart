@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spisy10/bloc/students/students_event.dart';
 import 'package:spisy10/bloc/students/students_state.dart';
-import 'package:spisy10/utils/student_repository.dart';
+import 'package:spisy10/utils/repository/student_repository.dart';
 
 class StudentsBloc extends Bloc<StudentsEvent,StudentsState>{
   final StudentRepository repository = StudentRepository();

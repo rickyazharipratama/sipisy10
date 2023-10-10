@@ -1,5 +1,5 @@
 import 'package:spisy10/models/student.dart';
-import 'package:spisy10/utils/student_dao.dart';
+import 'package:spisy10/utils/dao/student_dao.dart';
 
 class StudentRepository{
   final stdDao = StudentDAO();

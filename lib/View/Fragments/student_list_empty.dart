@@ -5,21 +5,21 @@ class StudentListEmpty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Stack(
+    return Stack(
       children: [
 
         Positioned.fill(
           child: Center(
             child: Icon(
               Icons.people_alt_outlined,
-              color: Color(0xFFf3f3f3),
-              size: 70
+              color: const Color(0xFFf3f3f3),
+              size: MediaQuery.of(context).size.width * 3 /4
             ),
           ),
         ),
 
-        Positioned.fill(
-          child: Center(
+        const Positioned.fill(
+          child:  Center(
             child: Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: 15

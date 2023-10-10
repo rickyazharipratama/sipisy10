@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 const studentTable = "students";
+const userTable = "user";
 
 class DatabaseProvider{
 
@@ -47,6 +48,12 @@ class DatabaseProvider{
       "gender int,"
       "address TEXT"
       ")"
+    );
+    await database.execute(
+      "CREATE TABLE $userTable ("
+      "id INTEGER PRIMARY KEY, "
+      "username TEXT, "
+      "valid  TEXT"
     );
   }
 }

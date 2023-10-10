@@ -22,6 +22,7 @@ class LandingPagePresenter extends BasePresenter{
 
 
   pageViewBlocListener(int nextPage){
+    print("state index: "+pageBloc.state.activePage!.toString());
     view.pageController.animateToPage(nextPage, duration: const Duration(milliseconds: 300), curve: Curves.ease);
   }
 
@@ -34,7 +35,6 @@ class LandingPagePresenter extends BasePresenter{
   }
 
   navigationBarOnTapped(int index){
-    pageViewBlocListener(index);
     Log("tapped : $index");
     pageBloc.add(ChangingPage(index: index));
   }

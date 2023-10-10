@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pratama_form_field_factory/Utils/pratama_Constants.dart';
 import 'package:pratama_form_field_factory/builders/form_builder/pratama_form_builder_model.dart';
 import 'package:pratama_form_field_factory/builders/form_builder/pratama_form_custom_field.dart';
+import 'package:pratama_form_field_factory/buttons/pratama_primary_button.dart';
 import 'package:pratama_form_field_factory/pratama_form_field_factory.dart';
 import 'package:spisy10/View/Pages/student_form/student_presenter.dart';
 import 'package:spisy10/View/Pages/student_form/student_view.dart';
@@ -114,7 +115,7 @@ class StudentForm extends StatelessWidget {
                     topOf: 4, 
                     field: Padding(
                       padding: const EdgeInsets.fromLTRB(10,30.0,10,10),
-                      child: InkWell(
+                      child: PratamaPrimaryButton(
                         onTap: () async{
                           bool radioValidate = presenter.radioPresenter.validate();
                           if(formKey.currentState!.validate()&& radioValidate){
@@ -134,25 +135,7 @@ class StudentForm extends StatelessWidget {
                             );
                           }
                         },
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
-                            color:  Color.fromARGB(255, 204, 110, 200),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 15
-                          ),
-                          child: Center(
-                            child: Text(
-                              presenter.existingStudent!.id == null ? "Simpan" : "Perbaharui",
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ),
+                        text: presenter.existingStudent!.id == null ? "Simpan" : "Perbaharui",
                       ),
                     )
                   )
