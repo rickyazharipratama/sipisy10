@@ -24,7 +24,7 @@ class DatabaseProvider{
     Directory docDir = await getApplicationDocumentsDirectory(); 
     String pth = join (docDir.path,"student.db");
     return await openDatabase(pth,
-      version :1,
+      version :3,
       onCreate: initDB,
       onUpgrade: onUpgrade
     );
@@ -41,19 +41,20 @@ class DatabaseProvider{
   void initDB(Database database, int version) async {
     await database.execute(
       "CREATE TABLE $studentTable ("
-      "id INTEGER PRIMARY KEY, "
-      "name TEXT, "
-      "date TEXT, "
-      "age int, "
-      "gender int,"
-      "address TEXT"
+        "id INTEGER PRIMARY KEY, "
+        "name TEXT, "
+        "date TEXT, "
+        "age int, "
+        "gender int,"
+        "address TEXT"
       ")"
     );
     await database.execute(
       "CREATE TABLE $userTable ("
-      "id INTEGER PRIMARY KEY, "
-      "username TEXT, "
-      "valid  TEXT"
+        "id INTEGER PRIMARY KEY, "
+        "username TEXT, "
+        "valid  TEXT"
+      ")"
     );
   }
 }

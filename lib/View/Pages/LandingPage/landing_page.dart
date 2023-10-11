@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:spisy10/View/Fragments/logout.dart';
+import 'package:spisy10/View/Fragments/logout/logout.dart';
 import 'package:spisy10/View/Fragments/student_list/student_list.dart';
 import 'package:spisy10/View/Pages/LandingPage/landing_page_presenter.dart';
 import 'package:spisy10/View/Pages/LandingPage/landing_page_presenter_view.dart';

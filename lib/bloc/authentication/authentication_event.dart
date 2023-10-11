@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:spisy10/models/user_auth.dart';
-import 'package:spisy10/models/user_model.dart';
 
 @immutable
 abstract class AuthenticationEvent{
@@ -15,3 +14,9 @@ class Authenticating extends AuthenticationEvent{
 class Validating extends AuthenticationEvent{
   Validating();
 }
+
+class DeletingActiveUser extends AuthenticationEvent{
+  DeletingActiveUser();
+}
+
+class Preparing extends AuthenticationEvent{}

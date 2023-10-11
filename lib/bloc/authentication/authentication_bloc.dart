@@ -16,11 +16,13 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState>{
   AuthenticationBloc() : super(LoginInit()){
     on<Authenticating>(_loginAuthentication);
     on<Validating>(_validatingActiveUser);
+    on<Preparing>(_prepareUser);
+    on<DeletingActiveUser>(_deletingActiveUser);
   }
 
 
 
-  FutureOr<void> _loginAuthentication(Authenticating event, Emitter<AuthenticationState> emit) {
+  FutureOr<void> _loginAuthentication(Authenticating event, Emitter<AuthenticationState> emit)  async{
     if(state.message != null){
       state.message = null;
     }
@@ -30,13 +32,13 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState>{
         valid: DateTime.now()
       );
       try{
-        repository.insertActiveUser(user);
+        await repository.insertActiveUser(user);
         emit(LoginSuccess(user: user));
       }catch(e){
         Log(e);
       }
     }else{
-      emit(LoginFailed(message: "loginFailed"));
+      emit(LoginFailed(message: "Username atau password yang Anda masukkan tidak terdaftar."));
     }
   }
 
@@ -44,7 +46,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState>{
     state.user = await repository.getActiveUser();
     if(state.message != null){
       state.message = null;
-    }
+    } 
     if(state.user == null){
       emit(NoActiveUser(message: "noActiveUSer"));
     }else{
@@ -54,6 +56,24 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState>{
         emit(ActiveUserDeleted(message: "userDeleted"));
       }else{
         emit(UserStillActive(user: state.user));
+      }
+    }
+  }
+
+  FutureOr<void> _prepareUser(Preparing event, Emitter<AuthenticationState> emit) {
+    state.message = null;
+    emit(UserPrepared(message: "userPrepared"));
+  }
+
+  FutureOr<void> _deletingActiveUser(DeletingActiveUser event, Emitter<AuthenticationState> emit) async{
+    if(state.user == null){
+      emit(NoActiveUser(message: "noActiveUSer"));
+    }else{
+      try{
+         await repository.deleteActiveUser(state.user!.id!);
+         emit(ActiveUserDeleted(message: "userDeleted"));
+      }catch(e){
+        Log(e);
       }
     }
   }

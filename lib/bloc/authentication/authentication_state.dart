@@ -1,4 +1,3 @@
-import 'package:spisy10/models/user_auth.dart';
 import 'package:spisy10/models/user_model.dart';
 
 abstract class AuthenticationState{
@@ -9,6 +8,10 @@ abstract class AuthenticationState{
 
 
 class LoginInit extends AuthenticationState{}
+
+class UserPrepared extends AuthenticationState{
+  UserPrepared({super.message});
+}
 
 class LoginSuccess extends AuthenticationState{ 
   LoginSuccess({super.user});
