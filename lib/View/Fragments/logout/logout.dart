@@ -4,8 +4,10 @@ import 'package:pratama_form_field_factory/buttons/pratama_primary_button.dart';
 import 'package:spisy10/View/Fragments/logout/logout_presenter.dart';
 import 'package:spisy10/View/Fragments/logout/logout_view.dart';
 import 'package:spisy10/View/widgets/components/loading.dart';
-import 'package:spisy10/bloc/authentication/authentication_bloc.dart';
-import 'package:spisy10/bloc/authentication/authentication_state.dart';
+import 'package:spisy10/factory/bloc/authentication/authentication_bloc.dart';
+import 'package:spisy10/factory/bloc/authentication/authentication_state.dart';
+import 'package:spisy10/factory/impls/views/fragments/logout/logout_presenter_impl.dart';
+import 'package:spisy10/factory/impls/views/fragments/logout/logout_view_impl.dart';
 
 class Logout extends StatelessWidget {
   const Logout({super.key});
@@ -13,8 +15,8 @@ class Logout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LogoutPresenter presenter = LogoutPresenter(
-      view: LogoutView(context: context), 
+    final LogoutPresenter presenter = LogoutPresenterImpl(
+      view: LogoutViewImpl(context: context), 
       authBloc: BlocProvider.of<AuthenticationBloc>(context)
     );
     return Stack(
@@ -59,7 +61,7 @@ class Logout extends StatelessWidget {
                     listenWhen: (previous, current) => current is NoActiveUser || current is ActiveUserDeleted,
                     listener: (context, state) {
                       Navigator.of(context).pop();
-                      presenter.view.navigateIntoLoginPage();
+                      presenter.currentView.navigateIntoLoginPage();
                     },
                     child: PratamaPrimaryButton(
                       onTap: () async{

@@ -9,11 +9,13 @@ import 'package:spisy10/View/Pages/student_form/student_presenter.dart';
 import 'package:spisy10/View/Pages/student_form/student_view.dart';
 import 'package:spisy10/View/widgets/buttons/pratama_icon_button.dart';
 import 'package:spisy10/View/widgets/components/loading.dart';
-import 'package:spisy10/bloc/date_form/date_form_bloc.dart';
-import 'package:spisy10/bloc/date_form/date_form_state.dart';
-import 'package:spisy10/bloc/students/students_bloc.dart';
-import 'package:spisy10/bloc/students/students_state.dart';
-import 'package:spisy10/models/student.dart';
+import 'package:spisy10/factory/bloc/date_form/date_form_bloc.dart';
+import 'package:spisy10/factory/bloc/date_form/date_form_state.dart';
+import 'package:spisy10/factory/bloc/students/students_bloc.dart';
+import 'package:spisy10/factory/bloc/students/students_state.dart';
+import 'package:spisy10/factory/impls/views/pages/student/student_presenter_impl.dart';
+import 'package:spisy10/factory/impls/views/pages/student/student_view_impl.dart';
+import 'package:spisy10/warehouse/models/student.dart';
 
 class StudentForm extends StatelessWidget {
   final Student? existingStudent;
@@ -25,7 +27,7 @@ class StudentForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final StudentPresenter presenter = StudentPresenter(view: StudentView(context: context), existingStudent: existingStudent);
+    final StudentPresenter presenter = StudentPresenterImpl(view: StudentViewImpl(context: context), existingStudent: existingStudent);
     return WillPopScope(
       onWillPop: () async{
        presenter.dispose();
@@ -79,19 +81,19 @@ class StudentForm extends StatelessWidget {
                 fields: [
                   PratamaFormBuilderModel(
                     field: PratamaFormField.textField,
-                    presenter: presenter.nameTextPresenter
+                    presenter: presenter.currentNameTextPresenter
                   ),
                   PratamaFormBuilderModel(
                     field:PratamaFormField.dateTIemPicker,
-                    presenter: presenter.dateTimePresenter
+                    presenter: presenter.currentDateTimePresenter
                   ),
                   PratamaFormBuilderModel(
                     field: PratamaFormField.radio,
-                    presenter: presenter.radioPresenter
+                    presenter: presenter.currentGenderPresenter
                   ),
                   PratamaFormBuilderModel(
                     field: PratamaFormField.textField,
-                    presenter: presenter.alamatTextPresenter
+                    presenter: presenter.currentAlamatTextPresenter
                   )
                 ],
                 customField: [
@@ -102,12 +104,12 @@ class StudentForm extends StatelessWidget {
                         return current is SuccessCounted;
                       },
                       listener: (context, state){
-                        presenter.umurTextPresenter.textController.value  = TextEditingValue(
+                        presenter.currentUmurTextPresenter.textController.value  = TextEditingValue(
                           text: presenter.formattedUmur!
                         );
                       },
                       child: PratamaTextField(
-                        presenter: presenter.umurTextPresenter,
+                        presenter: presenter.currentUmurTextPresenter,
                       ),
                     ),
                   ),
@@ -117,13 +119,13 @@ class StudentForm extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(10,30.0,10,10),
                       child: PratamaPrimaryButton(
                         onTap: () async{
-                          bool radioValidate = presenter.radioPresenter.validate();
+                          bool radioValidate = presenter.currentGenderPresenter.validate();
                           if(formKey.currentState!.validate()&& radioValidate){
                             await showDialog(
                               context: context,
                               barrierDismissible: false,
                                builder: (context){
-                                if(presenter.existingStudent!.id == null){
+                                if(presenter.currentExistingStudent!.id == null){
                                   presenter.onAddStudents();
                                 }else{
                                   presenter.onUpdateStudents();
@@ -135,7 +137,7 @@ class StudentForm extends StatelessWidget {
                             );
                           }
                         },
-                        text: presenter.existingStudent!.id == null ? "Simpan" : "Perbaharui",
+                        text: presenter.currentExistingStudent!.id == null ? "Simpan" : "Perbaharui",
                       ),
                     )
                   )

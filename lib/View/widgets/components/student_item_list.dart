@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:navigatorium/navigatorium.dart';
 import 'package:spisy10/View/Pages/student_form/student_form.dart';
-import 'package:spisy10/bloc/students/students_bloc.dart';
-import 'package:spisy10/bloc/students/students_event.dart';
-import 'package:spisy10/models/student.dart';
+import 'package:spisy10/factory/bloc/students/students_bloc.dart';
+import 'package:spisy10/factory/bloc/students/students_event.dart';
+import 'package:spisy10/factory/impls/bloc/students/event/delete_student_impl.dart';
+import 'package:spisy10/warehouse/models/student.dart';
 
 class StudentItemList extends StatelessWidget {
   final Student student;
@@ -45,7 +46,7 @@ class StudentItemList extends StatelessWidget {
             )
           ),
           IconButton(
-            onPressed: ()=> studentsBloc.add(DeleteStudent(id: student.id!)), 
+            onPressed: ()=> studentsBloc.add(DeleteStudentImpl(id: student.id!)), 
             icon: const Icon(
               Icons.delete,
               size: 25,

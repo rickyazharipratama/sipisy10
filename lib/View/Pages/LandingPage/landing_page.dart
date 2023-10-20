@@ -1,16 +1,13 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spisy10/View/Fragments/logout/logout.dart';
 import 'package:spisy10/View/Fragments/student_list/student_list.dart';
-import 'package:spisy10/View/Pages/LandingPage/landing_page_presenter.dart';
-import 'package:spisy10/View/Pages/LandingPage/landing_page_presenter_view.dart';
+import 'package:spisy10/View/Pages/landingPage/landing_page_presenter.dart';
 import 'package:spisy10/View/widgets/buttons/appbar_button/appbar_button.dart';
-import 'package:spisy10/bloc/page/page_bloc.dart';
-import 'package:spisy10/bloc/page/page_event.dart';
-import 'package:spisy10/bloc/page/page_state.dart';
-import 'package:spisy10/bloc/students/students_bloc.dart';
+import 'package:spisy10/factory/bloc/page/page_bloc.dart';
+import 'package:spisy10/factory/bloc/page/page_state.dart';
+import 'package:spisy10/factory/bloc/students/students_bloc.dart';
+import 'package:spisy10/factory/impls/views/pages/landing/landing_page_presenter_impl.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});
@@ -18,21 +15,16 @@ class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
-    final LandingPagePresenter presenter = LandingPagePresenter(
-      view : LandingPagePresenterView(
-        context: context
-      ),
-    );
+    final LandingPagePresenter presenter = LandingPagePresenterImpl();
     return  MultiBlocProvider(
       providers: [
         BlocProvider<PageBloc>(
-          create: presenter.pageProvider,
+          create: (context) => presenter.currentPageBloc,
         ),
-        BlocProvider<StudentsBloc>(create: presenter.studentPRovider)
+        BlocProvider<StudentsBloc>(create: (context) => presenter.currentStudentBloc)
       ],
       child: Builder(
         builder: (context) {
-          presenter.view.setCurrentContext(context);
           return Scaffold(
             appBar: AppBar(
               key: key,
@@ -58,7 +50,7 @@ class LandingPage extends StatelessWidget {
                 presenter.pageViewBlocListener(state.activePage!);
               },
               child: PageView(
-                controller:presenter.view.pageController,
+                controller:presenter.pageController,
                 allowImplicitScrolling: false,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:spisy10/View/Fragments/student_list/student_list_view.dart';
-import 'package:spisy10/bloc/students/students_bloc.dart';
-import 'package:spisy10/bloc/students/students_event.dart';
-import 'package:spisy10/bloc/students/students_state.dart';
 import 'package:spisy10/View/Fragments/student_list/student_list_presenter.dart';
+import 'package:spisy10/factory/bloc/students/students_bloc.dart';
+import 'package:spisy10/factory/bloc/students/students_state.dart';
+import 'package:spisy10/factory/impls/bloc/students/event/get_students_impl.dart';
+import 'package:spisy10/factory/impls/views/fragments/student_list/student_list_presenter_impl.dart';
+import 'package:spisy10/factory/impls/views/fragments/student_list/student_list_view_impl.dart';
 
 class StudentList extends StatelessWidget {
   final GlobalKey<RefreshIndicatorState> refreshKey = GlobalKey<RefreshIndicatorState>();
@@ -14,8 +15,8 @@ class StudentList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final StudentListPresenter presenter = StudentListPresenter(
-      view: StudentListView(context),
+    final StudentListPresenter presenter = StudentListPresenterImpl(
+      view: StudentListViewImpl(context),
       studentsBloc: BlocProvider.of<StudentsBloc>(context)
     );
     return BlocListener<StudentsBloc, StudentsState>(
@@ -24,7 +25,7 @@ class StudentList extends StatelessWidget {
         if(state is StudentIntializing){
           indicatorKey.currentState!.show();
         } else if(state is StudentLoaded){
-          presenter.students = state.students;
+          presenter.currentStudents = state.students;
         }
       },
       child: RefreshIndicator(
@@ -33,12 +34,12 @@ class StudentList extends StatelessWidget {
         onRefresh: () async{
           await Future.delayed(const Duration(milliseconds: 700),
             (){
-              presenter.studentsBloc.add(GetStudents());
+              presenter.currentBloc.add(GetStudentsImpl());
             }
           );
         },
         child: BlocBuilder<StudentsBloc, StudentsState>(
-          builder: presenter.view.studentListBlocBuilder,
+          builder: presenter.currentView.studentListBlocBuilder,
         ),
       ),
     );

@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spisy10/View/Pages/splash/splash_presenter.dart';
 import 'package:spisy10/View/Pages/splash/splash_view.dart';
-import 'package:spisy10/bloc/authentication/authentication_bloc.dart';
-import 'package:spisy10/bloc/authentication/authentication_event.dart';
-import 'package:spisy10/bloc/authentication/authentication_state.dart';
+import 'package:spisy10/factory/bloc/authentication/authentication_bloc.dart';
+import 'package:spisy10/factory/bloc/authentication/authentication_state.dart';
+import 'package:spisy10/factory/impls/bloc/authentication/events/validating_user_impl.dart';
+import 'package:spisy10/factory/impls/views/pages/splash/splash_presenter_impl.dart';
 
 class Splash extends StatelessWidget {
   const Splash({super.key});
@@ -13,9 +14,9 @@ class Splash extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final SplashPresenter presenter = SplashPresenter(
+    final SplashPresenter presenter = SplashPresenterImpl(
       authBloc: BlocProvider.of<AuthenticationBloc>(context),
-      view: SplashView(
+      view: SplashViewImpl(
         context: context
       )
     );
@@ -42,8 +43,8 @@ class Splash extends StatelessWidget {
             listenWhen: (previous, current) => current is UserPrepared || current is NoActiveUser || current  is UserStillActive || current is ActiveUserDeleted,
             listener: (context, state) {
               if(state is UserPrepared){
-                presenter.isNeedShowLoading = true;
-                presenter.authBloc.add(Validating());
+                presenter.isNeedToShowLoading = true;
+                presenter.currentAuthBloc.add(ValidatingUserImpl());
               }else if(state is UserStillActive){
                 presenter.goToLandingPage();
               }else{

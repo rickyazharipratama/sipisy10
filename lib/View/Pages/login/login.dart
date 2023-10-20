@@ -5,18 +5,21 @@ import 'package:pratama_form_field_factory/builders/form_builder/pratama_form_bu
 import 'package:pratama_form_field_factory/buttons/pratama_filled_secondary_button.dart';
 import 'package:pratama_form_field_factory/pratama_form_field_factory.dart';
 import 'package:spisy10/View/Pages/login/login_presenter.dart';
-import 'package:spisy10/View/Pages/login/login_view.dart';
 import 'package:spisy10/View/widgets/components/loading.dart';
-import 'package:spisy10/bloc/authentication/authentication_bloc.dart';
-import 'package:spisy10/bloc/authentication/authentication_state.dart';
+import 'package:spisy10/factory/bloc/authentication/authentication_bloc.dart';
+import 'package:spisy10/factory/bloc/authentication/authentication_state.dart';
+import 'package:spisy10/factory/impls/views/pages/login/login_presenter_impl.dart';
+import 'package:spisy10/factory/impls/views/pages/login/login_view_impl.dart';
 
 class Login extends StatelessWidget {
+  const Login({super.key});
+
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    final LoginPresenter presenter = LoginPresenter(
+    final LoginPresenter presenter = LoginPresenterImpl(
       authBloc: BlocProvider.of<AuthenticationBloc>(context), 
-      view: LoginView(context: context)
+      view: LoginViewImpl(context: context)
     );
     return Scaffold(
       body: Stack(
@@ -89,11 +92,11 @@ class Login extends StatelessWidget {
                       fields: [
                         PratamaFormBuilderModel(
                           field: PratamaFormField.textField,
-                          presenter: presenter.usernamePresenter
+                          presenter: presenter.currentUsernamePresenter
                         ),
                         PratamaFormBuilderModel(
                           field: PratamaFormField.textField,
-                          presenter: presenter.passwordPresenter
+                          presenter: presenter.currentPasswordPresenter
                         )
                       ],
                     ),
@@ -103,7 +106,7 @@ class Login extends StatelessWidget {
                         if(state is LoginFailed){
                           Navigator.of(context).pop();
                         }else if(state is LoginSuccess){
-                          presenter.view.navigateIntoLandingPage();
+                          presenter.currentView.navigateIntoLandingPage();
                         }
                       },
                       child: BlocBuilder<AuthenticationBloc,AuthenticationState>(
